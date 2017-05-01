@@ -1,0 +1,51 @@
+* {
+	font-family: 'Open Sans';
+}
+
+form {
+	align: center;
+}
+
+body {
+	padding: 0px;
+}
+
+hr {
+	margin: 0px;
+}
+
+
+.message {
+	text-align: center;
+	padding: 10px;
+	background-color: #33c3f0;
+	margin-top:0px;
+	margin:0px;
+}
+
+.errorfield {
+	text-align: center;
+	background-color: #FA5555;
+	border-radius: 5px;
+}
+
+.post {
+	background-color: #E4E9ED;
+	margin: 30px;
+	padding: 20px;
+	border-radius: 20px;
+}
+
+.headerfield {
+	margin: 5px;
+	display: inline-block;
+	text-decoration: none;
+	vertical-align: middle;
+	line-height: 50px;
+}
+
+a.headerfield {
+	margin-left: 20px;
+	font-size: 20px;
+	color: black;
+}

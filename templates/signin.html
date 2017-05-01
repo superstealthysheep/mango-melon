@@ -1,0 +1,4 @@
+{% extends 'layout.html' %}
+{% from 'macros.html' import render_form %}
+{% if text %}{% set text = 'Sign In to ' + text %}{% else %}{% set text = 'Sign In' %}{% endif %}
+{% block body %}{{ render_form(form, text, 'Sign In!') }}{% endblock %}

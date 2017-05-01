@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+{% from 'macros.html' import render_avatar %}
+
+<div class=container>
+	<div class=row><p>{{ message }}</p></div>
+	{% for key, value in enumerate(people) %}
+		<div class=row>
+			<div class='one column'>{{ render_avatar(value.avatar, 50) }}</div>
+			<div class='four columns'>{{ value.username }}</div>
+			<div class='seven columns'>{{ list[key] }}</div>
+		</div>
+	{% endfor %}
+</div>

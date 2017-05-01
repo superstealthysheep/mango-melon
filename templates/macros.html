@@ -1,0 +1,23 @@
+{% macro render_form(form, header, button) %}
+	<form method='POST' class=container style='margin-top: 5%'>
+		<h2>{{ header }}</h2>
+		{% for field in form %}
+		    <div class=row>
+		        {% if field.errors %}
+		            {% for error in field.errors %}
+		                <div class='twelve columns errorfield'>{{ error }}</div>
+		            {% endfor %}
+		        {% endif %}
+				{% if field.type == 'BooleanField' %}
+					{{ field.label }}
+				{% endif %}
+				{{ field(placeholder=field.label.text, class='twelve columns') }}
+		    </div>
+		{% endfor %}
+		<button type=submit class='button-primary'>{{ button }}</button>
+	</form>
+{% endmacro %}
+
+{% macro render_avatar(avatar, size='100') %}
+	<img src='{{ avatar }}' style='border-radius:50%; width: {{ size }}px; height: {{ size }}px;'></img>
+{% endmacro %}
