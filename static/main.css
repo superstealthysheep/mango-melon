@@ -32,10 +32,11 @@ hr {
 }
 
 .post {
-	background-color: #E4E9ED;
+	background-color: white;
 	margin: 30px;
 	padding: 20px;
 	border-radius: 20px;
+	color: black;
 }
 
 .headerfield {
@@ -49,5 +50,5 @@ hr {
 a.headerfield {
 	margin-left: 20px;
 	font-size: 20px;
-	color: black;
+	color: white;
 }
