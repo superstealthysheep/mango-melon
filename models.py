@@ -31,11 +31,11 @@ class User(UserMixin, Model):
         )
         smtp = smtplib.SMTP_SSL('smtp.mail.yahoo.com')
         smtp.login('tbasemsg@yahoo.com', 'Apple@0084')
-        msg = MIMEText('You have now registered with Thunder Dynamics Internal Communication (THIC) \n \n \nSincerely,\n THIC Admin')
+        msg = MIMEText('You have now registered with Thunder Dynamics Internal Communication (TDIC) \n \n \nSincerely,\nTDIC Admin')
         msg['Subject'] = 'Thunder Dynamics Internal Communication Sign Up'
         msg['From'] = 'Thunder Dynamics Internal Communication'
         msg['To'] = email
-        smtp.sendmail('tbasemsg@yahoo.com', email, msg.as_string())
+        smtp.sendmail('Thunder Dynamics Internal Communication', email, msg.as_string())
 
     def following(self):
         return User.select().join(Relationship, on=Relationship.to_user).where(Relationship.from_user == self)

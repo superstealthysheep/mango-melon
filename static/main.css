@@ -1,5 +1,6 @@
 * {
 	font-family: 'Open Sans';
+	color: white;
 }
 
 form {
@@ -8,6 +9,7 @@ form {
 
 body {
 	padding: 0px;
+	background-color: black
 }
 
 hr {
