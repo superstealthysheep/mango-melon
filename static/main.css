@@ -7,6 +7,10 @@ form {
 	align: center;
 }
 
+form * {
+	color: black;
+}
+
 body {
 	padding: 0px;
 	background-color: black
@@ -36,6 +40,10 @@ hr {
 	margin: 30px;
 	padding: 20px;
 	border-radius: 20px;
+	color: black;
+}
+
+.post * {
 	color: black;
 }
 
