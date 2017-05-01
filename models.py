@@ -19,7 +19,7 @@ class User(UserMixin, Model):
     joined_at = DateTimeField(default=datetime.datetime.now)
     bio = TextField(default='This person has not set a bio yet. Shame on that person.')
     default_view = CharField(default='following')
-    
+
     @classmethod
     def create_user(cls, username, email, first_name, last_name, password):
         cls.create(
@@ -31,62 +31,62 @@ class User(UserMixin, Model):
         )
         smtp = smtplib.SMTP_SSL('smtp.mail.yahoo.com')
         smtp.login('tbasemsg@yahoo.com', 'Apple@0084')
-        msg = MIMEText('Thanks for signing up!')
-        msg['Subject'] = 'Tbase signup'
-        msg['From'] = 'tbasemsg@yahoo.com'
+        msg = MIMEText('You have now registered with Thunder Dynamics Internal Communication (THIC) \n \n \nSincerely,\n THIC Admin')
+        msg['Subject'] = 'Thunder Dynamics Internal Communication Sign Up'
+        msg['From'] = 'Thunder Dynamics Internal Communication'
         msg['To'] = email
         smtp.sendmail('tbasemsg@yahoo.com', email, msg.as_string())
-        
+
     def following(self):
         return User.select().join(Relationship, on=Relationship.to_user).where(Relationship.from_user == self)
-        
+
     def followers(self):
         return User.select().join(Relationship, on=Relationship.from_user).where(Relationship.to_user == self)
-        
+
     def get_following(self):
         return Post.select().where(
             (Post.user << self.following()) |
             (Post.user == self)
         )
-        
+
     def get_followers(self):
         return Post.select().where(
             (Post.user << self.followers()) |
             (Post.user == self)
         )
-            
+
     class Meta:
         database = DB
         order_by = ('-joined_at',)
-            
+
 
 class Post(Model):
     user = ForeignKeyField(User, related_name='posts')
     data = TextField()
     created_at = DateTimeField(default=datetime.datetime.now)
-    
+
     def get_comments(self):
         Comment.select().where(Comment.post == self)
-    
+
     class Meta:
         database = DB
         order_by = ('-created_at',)
-        
+
 class Comment(Model):
     user = ForeignKeyField(User, related_name='user_comments')
     post = ForeignKeyField(Post, related_name='comments')
     data = TextField()
     created_at = DateTimeField(default=datetime.datetime.now)
-    
+
     class Meta:
         database = DB
         order_by = ('-created_at',)
-        
-        
+
+
 class Relationship(Model):
     from_user = ForeignKeyField(User, related_name='relations')
     to_user = ForeignKeyField(User, related_name='relations_to')
-    
+
     class Meta:
         database = DB
 
@@ -106,4 +106,3 @@ DB.create_tables([User, Post, Comment, Relationship], safe=True)
 if __name__ == '__main__':
     post_id = int(input('Post id to delete: '))
     Post.get(Post.id==post_id).delete_instance()
-    
