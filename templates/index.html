@@ -24,7 +24,7 @@
 			{% set view = g.user._get_current_object().default_view %}
 			<h2>Posts</h2>
 			<form method=POST>
-				<div class=row>
+				<div class=row style="color: white;">
 					<input type='radio' value=everyone name='pposts' {% if view == 'everyone' %}checked=true{% endif %} style='margin-right:5px'>Everyone</input>
 					<input type='radio' value=followers name='pposts' {% if view == 'followers' %}checked=true{% endif %} style='margin-left:10%; margin-right:5px'>Followers</input>
 					<input type='radio' value=following name='pposts' {% if view == 'following' %}checked=true{% endif %} style='margin-left:10%; margin-right:5px'>Following</input>
