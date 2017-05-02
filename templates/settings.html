@@ -3,9 +3,9 @@
 {% block body %}
 <div class=container>
 	<form method='POST' enctype='multipart/form-data'>
-		<h3 style="color: black">Set bio (Up to 255 chars)</h3>
+		<h3 style="color: white">Set bio (Up to 255 chars)</h3>
 		<textarea name=bio style='width:100%' placeholder='Current bio: {{ g.user._get_current_object().bio }}'></textarea>
-		<h3 style="color: black">Set avatar (Up to 3mb)</h3>
+		<h3 style="color: white">Set avatar (Up to 3mb)</h3>
 		<input type=file class=button name=avatar></input><br><br>
 		<input type='submit' class='button-primary'></input>
 	</form>

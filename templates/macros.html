@@ -1,6 +1,6 @@
 {% macro render_form(form, header, button) %}
-	<form method='POST' class=container style='margin-top: 5%'>
-		<h2>{{ header }}</h2>
+	<form method='POST' class=container style='margin-top: 5%; color: white;'>
+		<h2 style="color:white;">{{ header }}</h2>
 		{% for field in form %}
 		    <div class=row>
 		        {% if field.errors %}
@@ -9,7 +9,7 @@
 		            {% endfor %}
 		        {% endif %}
 				{% if field.type == 'BooleanField' %}
-					{{ field.label }}
+					<span style="color: white;">{{ field.label }}<span>
 				{% endif %}
 				{{ field(placeholder=field.label.text, class='twelve columns') }}
 		    </div>

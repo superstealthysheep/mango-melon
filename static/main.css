@@ -11,6 +11,10 @@ form * {
 	color: black;
 }
 
+label {
+	color: white !important;
+}
+
 body {
 	padding: 0px;
 	background-color: black
