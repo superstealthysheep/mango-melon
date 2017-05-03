@@ -29,7 +29,7 @@ class User(UserMixin, Model):
             last_name=last_name,
             password=generate_password_hash(password)
         )
-        user.sendmail_to('You have now registered with Thunder Dynamics Internal Communication (TDIC)')
+        user.sendmail_to(subject="Signup", msg_text='You have now registered with Thunder Dynamics Internal Communication (TDIC)')
 
     def following(self):
         return User.select().join(Relationship, on=Relationship.to_user).where(Relationship.from_user == self)
@@ -49,12 +49,12 @@ class User(UserMixin, Model):
             (Post.user == self)
         )
 
-    def sendmail_to(self, msg_text):
+    def sendmail_to(self, name="TDIC", subject, msg_text):
         smtp = smtplib.SMTP_SSL('smtp.gmail.com')
         smtp.login('thethunderdynamics@gmail.com', 'Driselamri07')
         msg = MIMEText(msg_text + '\n\n\nSincerely,\nTDIC Admin')
-        msg['Subject'] = 'Thunder Dynamics Internal Communication Sign Up'
-        msg['From'] = 'Thunder Dynamics Internal Communication'
+        msg['Subject'] = subject
+        msg['From'] = name
         msg['To'] = self.email
         smtp.sendmail('thethunderdynamics@gmail.com', self.email, msg.as_string())
 

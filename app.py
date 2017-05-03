@@ -64,7 +64,9 @@ def comment(id):
     else:
         if len(request.form['comment']) <= 140:
             models.Comment.create(user=g.user._get_current_object(), post=post, data=data)
-            post.user.sendmail_to('{} commented on your post: "{}".'
+            post.user.sendmail_to(name=g.user._get_current_object().username,
+            subject="TDIC Comment",
+            msg_text='{} commented on your post: "{}".'
             .format(g.user._get_current_object().username, data))
         else:
             flash('Comment too long (140 characters).')
@@ -137,7 +139,9 @@ def post():
         models.Post.create(user=g.user._get_current_object(), data=form.content.data)
         for rel in models.Relationship.select():
             if rel.to_user == g.user._get_current_object():
-                rel.from_user.sendmail_to('{} posted: "{}".'
+                rel.from_user.sendmail_to(name=g.user._get_current_object().username,
+                subject="TDIC Post",
+                msg_text='{} posted: "{}".'
                 .format(g.user._get_current_object().username, form.content.data))
 
         flash('Posted!')
