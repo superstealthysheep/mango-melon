@@ -29,13 +29,7 @@ class User(UserMixin, Model):
             last_name=last_name,
             password=generate_password_hash(password)
         )
-        smtp = smtplib.SMTP_SSL('smtp.gmail.com')
-        smtp.login('thethunderdynamics@gmail.com', 'Driselamri07')
-        msg = MIMEText('You have now registered with Thunder Dynamics Internal Communication (TDIC) \n \n \nSincerely,\nTDIC Admin')
-        msg['Subject'] = 'Thunder Dynamics Internal Communication Sign Up'
-        msg['From'] = 'Thunder Dynamics Internal Communication'
-        msg['To'] = email
-        smtp.sendmail('thethunderdynamics@gmail.com', email, msg.as_string())
+        sendmail_to('You have now registered with Thunder Dynamics Internal Communication (TDIC)')
 
     def following(self):
         return User.select().join(Relationship, on=Relationship.to_user).where(Relationship.from_user == self)
@@ -54,6 +48,15 @@ class User(UserMixin, Model):
             (Post.user << self.followers()) |
             (Post.user == self)
         )
+
+    def sendmail_to(self, msg_text):
+        smtp = smtplib.SMTP_SSL('smtp.gmail.com')
+        smtp.login('thethunderdynamics@gmail.com', 'Driselamri07')
+        msg = MIMEText('\n\n\nSincerely,\nTDIC Admin' + msg_text)
+        msg['Subject'] = 'Thunder Dynamics Internal Communication Sign Up'
+        msg['From'] = 'Thunder Dynamics Internal Communication'
+        msg['To'] = self.email
+        smtp.sendmail('thethunderdynamics@gmail.com', self.email, msg.as_string())
 
     class Meta:
         database = DB

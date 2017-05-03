@@ -20,7 +20,7 @@ def load_user(id):
         return models.User.get(models.User.id == id)
     except models.DoesNotExist:
         return None
-        
+
 
 @app.route('/', methods=('GET', 'POST'))
 @app.route('/<int:page>', methods=('GET', 'POST'))
@@ -49,8 +49,8 @@ def index(page=1):
     else:
         posts = None
     return render_template('index.html', posts=posts, options=True, page=page)
-    
-    
+
+
 @app.route('/comment/<int:id>', methods=['POST'])
 @login_required
 def comment(id):
@@ -64,11 +64,13 @@ def comment(id):
     else:
         if len(request.form['comment']) <= 140:
             models.Comment.create(user=g.user._get_current_object(), post=post, data=data)
+            post.user.sendmail_to('{} commented on your post: "{}".'
+            .format(g.user._get_current_object().username, data))
         else:
             flash('Comment too long (140 characters).')
         return redirect(url_for('index'))
 
-        
+
 @app.route('/signup', methods=['GET', 'POST'])
 def sign_up():
     form = forms.SignUpForm()
@@ -82,9 +84,9 @@ def sign_up():
         )
         flash('You signed up! Remember to login!')
         return redirect(url_for('index'))
-        
+
     return render_template('signup.html', form=form)
-    
+
 @app.route('/signin', methods=['GET', 'POST'])
 @app.route('/signin/<action>', methods=['GET', 'POST'])
 def sign_in(action=None):
@@ -117,7 +119,7 @@ def sign_in(action=None):
             else:
                 flash('Could not find a user with that username/email and password combination')
     return render_template('signin.html', form=form, text=other_text)
-    
+
 
 @app.route('/signout')
 @login_required
@@ -125,8 +127,8 @@ def sign_out():
     logout_user()
     flash('You have been signed out. Make sure to come back! Your friends will be waiting!')
     return redirect(url_for('index'))
-    
-    
+
+
 @app.route('/post', methods=['GET', 'POST'])
 @login_required
 def post():
@@ -136,7 +138,7 @@ def post():
         flash('Posted!')
         return redirect(url_for('index'))
     return render_template('post.html', form=form)
-    
+
 
 @app.route('/user')
 @app.route('/user/<username>')
@@ -154,8 +156,8 @@ def user_view(username=None):
     else:
         posts = models.Post.select().where(models.Post.user == user)
         return render_template('index.html', user=user, posts=posts)
-        
-        
+
+
 @app.route('/follow/<username>')
 @login_required
 def follow(username):
@@ -164,7 +166,7 @@ def follow(username):
     except models.DoesNotExist:
         abort(406)
     else:
-        try: 
+        try:
             models.Relationship.get(models.Relationship.from_user == g.user._get_current_object(), models.Relationship.to_user == user)
         except models.DoesNotExist:
             models.Relationship.create(from_user=g.user._get_current_object(), to_user=user)
@@ -173,7 +175,7 @@ def follow(username):
         else:
             flash('You already followed {}.'.format(user.username))
             return redirect(url_for('user_view', username=user.username))
-            
+
 @app.route('/unfollow/<username>')
 @login_required
 def unfollow(username):
@@ -182,7 +184,7 @@ def unfollow(username):
     except models.DoesNotExist:
         abort(406)
     else:
-        try: 
+        try:
             relation = models.Relationship.get(models.Relationship.from_user == g.user._get_current_object(), models.Relationship.to_user == user)
         except models.DoesNotExist:
             flash('You haven\'t followed {} yet.'.format(user.username))
@@ -191,8 +193,8 @@ def unfollow(username):
             relation.delete_instance()
             flash('Unfollowed {}.'.format(user.username))
             return redirect(url_for('user_view', username=user.username))
-          
-          
+
+
 @app.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
@@ -218,8 +220,8 @@ def settings():
             else:
                 flash('Avatar is not an image.')
     return render_template('settings.html')
-    
-    
+
+
 @app.route('/delete_account')
 @login_required
 def delete_account():
@@ -238,27 +240,27 @@ def view_post(id):
     else:
         return render_template('index.html', posts=[post])
 
-    
+
 @app.errorhandler(404)
 def e404(error):
-    return render_template('layout.html', error_head='404', 
-                            error_message='You have landed in the wrong spot.', 
+    return render_template('layout.html', error_head='404',
+                            error_message='You have landed in the wrong spot.',
                             error_link='/', error_link_m='Return to homepage'), 404
-                            
+
 @app.errorhandler(406)
 def e406(error):
-    return render_template('layout.html', error_head='406', 
-                            error_message='Dude, that user does not exist.', 
+    return render_template('layout.html', error_head='406',
+                            error_message='Dude, that user does not exist.',
                             error_link='/', error_link_m='Back to safety'), 406
-                            
+
 
 @app.errorhandler(500)
 def e500(error):
-    return render_template('layout.html', error_head='500', 
-                            error_message='Holy smokes! You just crashed the server!', 
+    return render_template('layout.html', error_head='500',
+                            error_message='Holy smokes! You just crashed the server!',
                             error_link='https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg', error_link_m='Cat picture'), 500
-    
-    
+
+
 @app.before_request
 def before():
     g.user = current_user
@@ -268,14 +270,13 @@ def before():
         g.db.create_tables([User, Post, Comment, Relationship], safe=True)
     except:
         pass
-    
+
 @app.after_request
 def after(response):
     g.db.close()
     return response
 
-    
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=80)
     # app.run(debug=False, host='0.0.0.0', port=80)
-        
