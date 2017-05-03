@@ -52,7 +52,7 @@ class User(UserMixin, Model):
     def sendmail_to(self, msg_text):
         smtp = smtplib.SMTP_SSL('smtp.gmail.com')
         smtp.login('thethunderdynamics@gmail.com', 'Driselamri07')
-        msg = MIMEText('\n\n\nSincerely,\nTDIC Admin' + msg_text)
+        msg = MIMEText(msg_text + '\n\n\nSincerely,\nTDIC Admin')
         msg['Subject'] = 'Thunder Dynamics Internal Communication Sign Up'
         msg['From'] = 'Thunder Dynamics Internal Communication'
         msg['To'] = self.email
