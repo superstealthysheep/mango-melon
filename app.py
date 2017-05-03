@@ -135,7 +135,7 @@ def post():
     form = forms.PostForm()
     if form.validate_on_submit():
         models.Post.create(user=g.user._get_current_object(), data=form.content.data)
-        for rel in models.Relationship.get():
+        for rel in models.Relationship.select():
             if rel.to_user == g.user._get_current_object():
                 rel.from_user.sendmail_to('{} posted: "{}".'
                 .format(g.user._get_current_object().username, form.content.data))
