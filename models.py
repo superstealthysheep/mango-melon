@@ -29,13 +29,13 @@ class User(UserMixin, Model):
             last_name=last_name,
             password=generate_password_hash(password)
         )
-        smtp = smtplib.SMTP_SSL('smtp.mail.yahoo.com')
-        smtp.login('tbasemsg@yahoo.com', 'Apple@0084')
+        smtp = smtplib.SMTP_SSL('smtp.gmail.com')
+        smtp.login('thethunderdynamics@gmail.com', 'Driselamri07')
         msg = MIMEText('You have now registered with Thunder Dynamics Internal Communication (TDIC) \n \n \nSincerely,\nTDIC Admin')
         msg['Subject'] = 'Thunder Dynamics Internal Communication Sign Up'
         msg['From'] = 'Thunder Dynamics Internal Communication'
         msg['To'] = email
-        smtp.sendmail('Thunder Dynamics Internal Communication', email, msg.as_string())
+        smtp.sendmail('thethunderdynamics@gmail.com', email, msg.as_string())
 
     def following(self):
         return User.select().join(Relationship, on=Relationship.to_user).where(Relationship.from_user == self)
