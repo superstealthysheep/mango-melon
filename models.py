@@ -49,7 +49,7 @@ class User(UserMixin, Model):
             (Post.user == self)
         )
 
-    def sendmail_to(self, name="TDIC", subject, msg_text):
+    def sendmail_to(self, subject, msg_text, name="TDIC"):
         smtp = smtplib.SMTP_SSL('smtp.gmail.com')
         smtp.login('thethunderdynamics@gmail.com', 'Driselamri07')
         msg = MIMEText(msg_text + '\n\n\nSincerely,\nTDIC Admin')
