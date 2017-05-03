@@ -21,7 +21,7 @@ class User(UserMixin, Model):
     default_view = CharField(default='following')
 
     @classmethod
-    def create_user(cls, username, email, first_name, last_name, password):
+    def create_user(self, cls, username, email, first_name, last_name, password):
         cls.create(
             username=username,
             email=email,
@@ -29,7 +29,7 @@ class User(UserMixin, Model):
             last_name=last_name,
             password=generate_password_hash(password)
         )
-        sendmail_to('You have now registered with Thunder Dynamics Internal Communication (TDIC)')
+        self.sendmail_to('You have now registered with Thunder Dynamics Internal Communication (TDIC)')
 
     def following(self):
         return User.select().join(Relationship, on=Relationship.to_user).where(Relationship.from_user == self)

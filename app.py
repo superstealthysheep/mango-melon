@@ -135,10 +135,10 @@ def post():
     form = forms.PostForm()
     if form.validate_on_submit():
         models.Post.create(user=g.user._get_current_object(), data=form.content.data)
-        for rel in Relationship.get(Relationship.to_user.id == g.user._get_current_object().id):
+        for rel in models.Relationship.get(models.Relationship.to_user.id == g.user._get_current_object().id):
             rel.from_user.sendmail_to('{} posted: "{}".'
             .format(g.user._get_current_object().username, form.content.data))
-            
+
         flash('Posted!')
         return redirect(url_for('index'))
     return render_template('post.html', form=form)
