@@ -1,2 +1,3 @@
-# tbase
-A mini social network based on Werkzeug/Flask
+# TDIC
+Thunder Dynamics Internal Communication:
+Based on tbase.
