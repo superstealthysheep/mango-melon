@@ -104,6 +104,34 @@ else:
     db_sql = SqliteDatabase('DB')
     DB.initialize(db_sql)
 
+
+def del_user(username):
+    del_posts_for_user(username)
+    del_comments_for_user(username)
+    del_relationships_for_user(username)
+
+    user = User.get(User.username == username)
+    user.delete_instance()
+
+def del_posts_for_user(username):
+    for post in Post.select():
+        if post.user.username == username:
+            for comment in Comment.select():
+                if comment.post == post:
+                    comment.delete_instance()
+            post.delete_instance()
+
+def del_comments_for_user(username):
+    for comment in Comment.select()
+        if comment.user.username == username:
+            comment.delete_instance()
+
+def del_relationships_for_user(username):
+    for rel in Relationship.select():
+        if rel.to_user.username == username
+        || rel.from_user == username:
+            rel.delete_instance()
+
 DB.connect()
 DB.create_tables([User, Post, Comment, Relationship], safe=True)
 
