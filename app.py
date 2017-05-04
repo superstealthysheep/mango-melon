@@ -8,7 +8,7 @@ from werkzeug.serving import make_ssl_devcert
 
 app = Flask(__name__)
 app.secret_key = 'gb5;w85uigb4hp89g 5ubg8959gb5g9p891234567gfvhytrdgfjdfgd5c56d566576tyvyfyftfyttytyftfÿ'
-
+sslify = SSLify(app, permanent=True)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -272,6 +272,7 @@ def e500(error):
 
 @app.before_request
 def before():
+
     g.user = current_user
     g.db = models.DB
     g.db.connect()
