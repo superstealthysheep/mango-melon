@@ -272,7 +272,6 @@ def e500(error):
 
 @app.before_request
 def before():
-
     g.user = current_user
     g.db = models.DB
     g.db.connect()
