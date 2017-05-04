@@ -122,7 +122,7 @@ def del_posts_for_user(username):
             post.delete_instance()
 
 def del_comments_for_user(username):
-    for comment in Comment.select()
+    for comment in Comment.select():
         if comment.user.username == username:
             comment.delete_instance()
 
