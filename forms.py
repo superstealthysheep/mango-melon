@@ -73,7 +73,7 @@ class SignUpForm(Form):
  - Key is in os.environ or Heroku environment vars
 
 Forms model below:
-"""
+
     tdic_key = StringField(
     'Pre-Shared Key'
     validators=[
@@ -81,7 +81,7 @@ Forms model below:
         EqualTo(os.environ('tdic_key'), message='Must use correct pre-shared key')
     ]
     )
-
+"""
 class SignInForm(Form):
     name_email = StringField('Username or Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
