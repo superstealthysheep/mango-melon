@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import models, forms, sys, codecs
-from flask import Flask, flash, redirect, url_for, render_template, g, abort, request
+from flask import Flask, flash, redirect, url_for, render_template, g, abort, request, session
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from flask_bcrypt import check_password_hash
 from flask_sslify import SSLify
@@ -241,6 +241,7 @@ def delete_account():
 
 
 @app.route('/view_post/<int:id>')
+@login_required
 def view_post(id):
     try:
         post = models.Post.get(models.Post.id == id)
@@ -248,6 +249,7 @@ def view_post(id):
         abort(404)
     else:
         return render_template('index.html', posts=[post])
+
 
 
 @app.errorhandler(404)
