@@ -4,11 +4,11 @@ from flask import Flask, flash, redirect, url_for, render_template, g, abort, re
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from flask_bcrypt import check_password_hash
 from flask_sslify import SSLify
-from werkzeug.serving import make_ssl_devcert
 
+ 
 app = Flask(__name__)
 app.secret_key = 'gb5;w85uigb4hp89g 5ubg8959gb5g9p891234567gfvhytrdgfjdfgd5c56d566576tyvyfyftfyttytyftfÿ'
-sslify = SSLify(app, permanent=True)
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -289,5 +289,5 @@ def after(response):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=80)
+    app.run(debug=False, host='0.0.0.0', port=80)
     # app.run(debug=False, host='0.0.0.0', port=80)

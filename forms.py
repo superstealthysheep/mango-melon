@@ -1,10 +1,12 @@
+import os
+
 import models
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, TextAreaField, BooleanField
 from wtforms.validators import ValidationError, DataRequired, regexp, Email, EqualTo, Length
 from flask_bcrypt import check_password_hash
 
-AUTH_PASS = '$2b$12$Q11B1p8vIPoUMJ6WbE/bru.6OgrqoA8n50Bs04rbpHnh.EsBA5sj2'
+AUTH_PASS = os.environ['auth_pass']
 
 def username_exists(form, field):
     try:
@@ -71,6 +73,7 @@ class SignUpForm(Form):
         'Confirm Password',
         validators=[DataRequired()]
     )
+
     auth = PasswordField('Special Password',
         validators=[
             DataRequired(),
