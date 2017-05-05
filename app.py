@@ -281,13 +281,13 @@ def before():
         g.db.create_tables([User, Post, Comment, Relationship], safe=True)
     except:
         pass
-    url = request.url
-    new_url = re.sub('http', 'https', url)
-    redirect(new_url)
 
 @app.after_request
 def after(response):
     g.db.close()
+    url = request.url
+    new_url = re.sub('http', 'https', url)
+    redirect(new_url)
     return response
 
 
