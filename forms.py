@@ -1,3 +1,5 @@
+import os
+
 import models
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, TextAreaField, BooleanField
@@ -11,7 +13,7 @@ def username_exists(form, field):
         pass
     else:
         raise ValidationError('User with that username already exists')
-        
+
 
 def email_exists(form, field):
     try:
@@ -63,14 +65,28 @@ class SignUpForm(Form):
         'Confirm Password',
         validators=[DataRequired()]
     )
-    
-    
+
+"""
+# New security feature: pre-shared key.
+
+ - Need key to Signup
+ - Key is in os.environ or Heroku environment vars
+
+Forms model below:
+"""
+    tdic_key = StringField(
+    'Pre-Shared Key'
+    validators=[
+        DataRequired()
+        EqualTo(os.environ('tdic_key'), message='Must use correct pre-shared key')
+    ]
+    )
+
 class SignInForm(Form):
     name_email = StringField('Username or Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
-    
-    
+
+
 class PostForm(Form):
     content = TextAreaField('What do you have to say?', validators=[Length(1, 255)])
-    
