@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-import models, forms, sys, codecs
+import models, forms, sys, codecs, re
 from flask import Flask, flash, redirect, url_for, render_template, g, abort, request, session
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from flask_bcrypt import check_password_hash
 from flask_sslify import SSLify
 
- 
+
 app = Flask(__name__)
 app.secret_key = 'gb5;w85uigb4hp89g 5ubg8959gb5g9p891234567gfvhytrdgfjdfgd5c56d566576tyvyfyftfyttytyftfÿ'
 
@@ -281,6 +281,9 @@ def before():
         g.db.create_tables([User, Post, Comment, Relationship], safe=True)
     except:
         pass
+    url = request.url
+    new_url = re.sub('http', 'https', url)
+    redirect(new_url)
 
 @app.after_request
 def after(response):
