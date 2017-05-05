@@ -5,7 +5,7 @@ from flask_login import LoginManager, current_user, login_user, logout_user, log
 from flask_bcrypt import check_password_hash
 from flask_sslify import SSLify
 
-
+ 
 app = Flask(__name__)
 app.secret_key = 'gb5;w85uigb4hp89g 5ubg8959gb5g9p891234567gfvhytrdgfjdfgd5c56d566576tyvyfyftfyttytyftfÿ'
 
