@@ -280,7 +280,8 @@ def before():
         g.db.create_tables([User, Post, Comment, Relationship], safe=True)
     except:
         pass
-    return redirect(re.sub("http", "https", request.url))
+    return response
+    # return redirect(re.sub("http", "https", request.url))
 
 @app.after_request
 def after(response):
