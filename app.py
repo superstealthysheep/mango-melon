@@ -282,7 +282,7 @@ def before():
         pass
 
     url = re.sub("http://", "https://", request.url)
-    if 'https://' in request.url:
+    if 'http://' in request.url:
         return redirect(url)
 
 @app.after_request
