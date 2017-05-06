@@ -271,7 +271,6 @@ def e500(error):
                             error_message='Holy smokes! You just crashed the server!',
                             error_link='https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg', error_link_m='Cat picture'), 500
 
-
 @app.before_request
 def before():
     g.user = current_user
@@ -281,13 +280,11 @@ def before():
         g.db.create_tables([User, Post, Comment, Relationship], safe=True)
     except:
         pass
+    return redirect(re.sub("http", "https", request.url))
 
 @app.after_request
 def after(response):
     g.db.close()
-    url = request.url
-    new_url = re.sub('http', 'https', url)
-    redirect(new_url)
     return response
 
 

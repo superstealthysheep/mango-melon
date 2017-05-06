@@ -6,7 +6,10 @@ from wtforms import StringField, PasswordField, TextAreaField, BooleanField
 from wtforms.validators import ValidationError, DataRequired, regexp, Email, EqualTo, Length
 from flask_bcrypt import check_password_hash
 
-AUTH_PASS = os.environ['auth_pass']
+if 'HEROKU' in os.environ:
+    AUTH_PASS = os.environ['auth_pass']
+else:
+    AUTH_PASS = 'gjdfskghl'
 
 def username_exists(form, field):
     try:
