@@ -11,7 +11,9 @@ if 'HEROKU' in os.environ:
 else:
     AUTH_PASS = 'gjdfskghl'
 
+
 def username_exists(form, field):
+    print(form)
     try:
         models.User.get(models.User.username ** field.data)
     except models.DoesNotExist:
@@ -21,6 +23,7 @@ def username_exists(form, field):
 
 
 def email_exists(form, field):
+    print(form)
     try:
         models.User.get(models.User.email ** field.data)
     except models.DoesNotExist:
@@ -28,11 +31,14 @@ def email_exists(form, field):
     else:
         raise ValidationError('User with that email already exists')
 
+
 def auth_matches(form, field):
+    print(form)
     if check_password_hash(AUTH_PASS, field.data):
         pass
     else:
         raise ValidationError('Special Password Incorrect')
+
 
 class SignUpForm(Form):
     username = StringField(
@@ -40,7 +46,9 @@ class SignUpForm(Form):
         validators=[
             DataRequired(),
             username_exists,
-            regexp(r'^[a-z0-9]{3,10}$', message='Username can only be lowercase letters and numbers and length can only be 3-10 characters long')
+            regexp(r'^[a-z0-9]{3,10}$',
+                   message='Username can only be lowercase letters & numbers, '
+                           'and length can only be 3-10 characters long')
         ]
     )
     email = StringField(
@@ -77,7 +85,8 @@ class SignUpForm(Form):
         validators=[DataRequired()]
     )
 
-    auth = PasswordField('Special Password',
+    auth = PasswordField(
+        'Special Password',
         validators=[
             DataRequired(),
             auth_matches

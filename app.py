@@ -1,53 +1,61 @@
 #!/usr/bin/env python3
-import models, forms, sys, codecs, re
-from flask import Flask, flash, redirect, url_for, render_template, g, abort, request, session
+import os
+from re import sub
+from codecs import encode
+from sys import getsizeof
+
+from werkzeug.routing import BuildError
+
+from forms import SignUpForm, PostForm, SignInForm
+from models import User, Post, Comment, Relationship, DoesNotExist, DB
+
+from werkzeug.exceptions import BadRequest
+from flask import Flask, flash, redirect, url_for, render_template, g, abort, request
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from flask_bcrypt import check_password_hash
-from flask_sslify import SSLify
 
 
 app = Flask(__name__)
-app.secret_key = 'gb5;w85uigb4hp89g 5ubg8959gb5g9p891234567gfvhytrdgfjdfgd5c56d566576tyvyfyftfyttytyftfÿ'
-
+app.secret_key = 'gb5;w85uigb4hp89g 5ubg8959gb5g9p891234567gfvhytrdgfjdfgd5c56d566576tyvyfyftfyttytyftf'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'sign_in'
 
+
 @login_manager.user_loader
 def load_user(id):
     try:
-        return models.User.get(models.User.id == id)
-    except models.DoesNotExist:
+        return User.get(User.id == id)
+    except DoesNotExist:
         return None
 
 
 @app.route('/', methods=('GET', 'POST'))
 @app.route('/<int:page>', methods=('GET', 'POST'))
 def index(page=1):
+    posts = None
     if current_user.is_authenticated:
         if request.method == 'POST':
             if request.form['pposts'] == 'everyone':
-                posts = models.Post.select().paginate(page, 20)
-                g.user._get_current_object().default_view = 'everyone'
-                g.user._get_current_object().save()
+                posts = Post.select().paginate(page, 20)
+                g.user.default_view = 'everyone'
+                g.user.save()
             elif request.form['pposts'] == 'following':
-                posts = g.user._get_current_object().get_following().paginate(page, 20)
-                g.user._get_current_object().default_view = 'following'
-                g.user._get_current_object().save()
+                posts = g.user.get_following().paginate(page, 20)
+                g.user.default_view = 'following'
+                g.user.save()
             elif request.form['pposts'] == 'followers':
-                posts = g.user._get_current_object().get_followers().paginate(page, 20)
-                g.user._get_current_object().default_view = 'followers'
-                g.user._get_current_object().save()
+                posts = g.user.get_followers().paginate(page, 20)
+                g.user.default_view = 'followers'
+                g.user.save()
         else:
-            if g.user._get_current_object().default_view == 'following':
-                posts = g.user._get_current_object().get_following().paginate(page, 20)
-            elif g.user._get_current_object().default_view == 'followers':
-                posts = g.user._get_current_object().get_followers().paginate(page, 20)
+            if g.user.default_view == 'following':
+                posts = g.user.get_following().paginate(page, 20)
+            elif g.user.default_view == 'followers':
+                posts = g.user.get_followers().paginate(page, 20)
             else:
-                posts = models.Post.select().paginate(page, 20)
-    else:
-        posts = None
+                posts = Post.select().paginate(page, 20)
     return render_template('index.html', posts=posts, options=True, page=page)
 
 
@@ -55,19 +63,19 @@ def index(page=1):
 @login_required
 def comment(id):
     try:
-        post = models.Post.get(models.Post.id == id)
+        post_comment = Post.get(Post.id == id)
         data = request.form['comment']
-    except models.DoesNotExist:
+    except DoesNotExist:
         abort(404)
-    except:
+    except BadRequest:
         abort(400)
     else:
         if len(request.form['comment']) <= 140:
-            models.Comment.create(user=g.user._get_current_object(), post=post, data=data)
-            post.user.sendmail_to(name=g.user._get_current_object().username,
-            subject="TDIC Comment",
-            msg_text='{} commented on your post: "{}".'
-            .format(g.user._get_current_object().username, data))
+            Comment.create(user=g.user, post=post_comment, data=data)
+            post_comment.user.sendmail_to(name=g.user.username,
+                                          subject="TDIC Comment",
+                                          msg_text='{} commented on your post: "{}".'
+                                          .format(g.user.username, data))
         else:
             flash('Comment too long (140 characters).')
         return redirect(url_for('index'))
@@ -75,9 +83,9 @@ def comment(id):
 
 @app.route('/signup', methods=['GET', 'POST'])
 def sign_up():
-    form = forms.SignUpForm()
+    form = SignUpForm()
     if form.validate_on_submit():
-        models.User.create_user(
+        User.create_user(
             username=form.username.data,
             email=form.email.data,
             first_name=form.first_name.data,
@@ -89,18 +97,19 @@ def sign_up():
 
     return render_template('signup.html', form=form)
 
+
 @app.route('/signin', methods=['GET', 'POST'])
 @app.route('/signin/<action>', methods=['GET', 'POST'])
 def sign_in(action=None):
-    form = forms.SignInForm()
+    form = SignInForm()
     other_text = action
     if form.validate_on_submit():
         try:
-            user = models.User.get(models.User.username ** form.name_email.data)
-        except models.DoesNotExist:
+            user = User.get(User.username ** form.name_email.data)
+        except DoesNotExist:
             try:
-                user = models.User.get(models.User.email ** form.name_email.data)
-            except models.DoesNotExist:
+                user = User.get(User.email ** form.name_email.data)
+            except DoesNotExist:
                 flash('Could not find a user with that username/email and password combination')
                 return render_template('signin.html', form=form)
             else:
@@ -112,7 +121,7 @@ def sign_in(action=None):
                 if action:
                     try:
                         return redirect(url_for(action))
-                    except:
+                    except BuildError:
                         flash('Could not find the action to verify')
                         return redirect(url_for('index')), 404
                 login_user(user, remember=form.remember.data)
@@ -134,15 +143,15 @@ def sign_out():
 @app.route('/post', methods=['GET', 'POST'])
 @login_required
 def post():
-    form = forms.PostForm()
+    form = PostForm()
     if form.validate_on_submit():
-        models.Post.create(user=g.user._get_current_object(), data=form.content.data)
-        for rel in models.Relationship.select():
-            if rel.to_user == g.user._get_current_object():
-                rel.from_user.sendmail_to(name=g.user._get_current_object().username,
-                subject="TDIC Post",
-                msg_text='{} posted: "{}".'
-                .format(g.user._get_current_object().username, form.content.data))
+        Post.create(user=g.user, data=form.content.data)
+        for rel in Relationship.select():
+            if rel.to_user == g.user:
+                rel.from_user.sendmail_to(name=g.user.username,
+                                          subject="TDIC Post",
+                                          msg_text='{} posted: "{}".'
+                                          .format(g.user.username, form.content.data))
 
         flash('Posted!')
         return redirect(url_for('index'))
@@ -155,15 +164,15 @@ def post():
 def user_view(username=None):
     try:
         if username:
-            user = models.User.get(models.User.username ** username)
+            user = User.get(User.username ** username)
         else:
-            user = models.User.get(models.User.username ** request.values['user'])
-    except models.DoesNotExist:
+            user = User.get(User.username ** request.values['user'])
+    except DoesNotExist:
         abort(406)
     except KeyError:
         abort(400)
     else:
-        posts = models.Post.select().where(models.Post.user == user)
+        posts = Post.select().where(Post.user == user)
         return render_template('index.html', user=user, posts=posts)
 
 
@@ -171,31 +180,33 @@ def user_view(username=None):
 @login_required
 def follow(username):
     try:
-        user = models.User.get(models.User.username ** username)
-    except models.DoesNotExist:
+        user = User.get(User.username ** username)
+    except DoesNotExist:
         abort(406)
     else:
         try:
-            models.Relationship.get(models.Relationship.from_user == g.user._get_current_object(), models.Relationship.to_user == user)
-        except models.DoesNotExist:
-            models.Relationship.create(from_user=g.user._get_current_object(), to_user=user)
+            Relationship.get(Relationship.from_user == g.user, Relationship.to_user == user)
+        except DoesNotExist:
+            Relationship.create(from_user=g.user, to_user=user)
             flash('Followed {}!'.format(user.username))
             return redirect(url_for('user_view', username=user.username))
         else:
             flash('You already followed {}.'.format(user.username))
             return redirect(url_for('user_view', username=user.username))
 
+
 @app.route('/unfollow/<username>')
 @login_required
 def unfollow(username):
     try:
-        user = models.User.get(models.User.username ** username)
-    except models.DoesNotExist:
+        user = User.get(User.username ** username)
+    except DoesNotExist:
         abort(406)
     else:
         try:
-            relation = models.Relationship.get(models.Relationship.from_user == g.user._get_current_object(), models.Relationship.to_user == user)
-        except models.DoesNotExist:
+            relation = Relationship.get(Relationship.from_user == g.user,
+                                        Relationship.to_user == user)
+        except DoesNotExist:
             flash('You haven\'t followed {} yet.'.format(user.username))
             return redirect(url_for('user_view', username=user.username))
         else:
@@ -208,7 +219,7 @@ def unfollow(username):
 @login_required
 def settings():
     if request.method == 'POST':
-        user = g.user._get_current_object()
+        user = g.user
         if request.form['bio'] != '':
             if len(request.form['bio']) <= 255:
                 user.bio = request.form['bio']
@@ -219,10 +230,11 @@ def settings():
         if request.files['avatar']:
             if 'image' in request.files['avatar'].content_type:
                 file_u = request.files['avatar'].read()
-                if sys.getsizeof(file_u) <= 3000000:
-                    file_a = 'data:{};base64,{}'.format(request.files['avatar'].content_type, codecs.encode(file_u, 'base64').decode('utf-8'))
-                    g.user._get_current_object().avatar = file_a
-                    g.user._get_current_object().save()
+                if getsizeof(file_u) <= 3000000:
+                    file_a = 'data:{};base64,{}'.format(request.files['avatar'].content_type,
+                                                        encode(file_u, 'base64').decode('utf-8'))
+                    g.user.avatar = file_a
+                    g.user.save()
                     flash('Avatar set!')
                 else:
                     flash('Avatar is bigger than 3 mb.')
@@ -234,7 +246,7 @@ def settings():
 @app.route('/delete_account')
 @login_required
 def delete_account():
-    g.user._get_current_object().delete_instance()
+    g.user.delete_instance()
     logout_user()
     flash('User deleted. We are sorry to see you go!')
     return redirect(url_for('index'))
@@ -244,46 +256,49 @@ def delete_account():
 @login_required
 def view_post(id):
     try:
-        post = models.Post.get(models.Post.id == id)
-    except models.DoesNotExist:
+        viewed_post = Post.get(Post.id == id)
+    except DoesNotExist:
         abort(404)
     else:
-        return render_template('index.html', posts=[post])
-
+        return render_template('index.html', posts=[viewed_post])
 
 
 @app.errorhandler(404)
 def e404(error):
+    print(error)
     return render_template('layout.html', error_head='404',
-                            error_message='You have landed in the wrong spot.',
-                            error_link='/', error_link_m='Return to homepage'), 404
+                           error_message='You have landed in the wrong spot.',
+                           error_link='/', error_link_m='Return to homepage'), 404
+
 
 @app.errorhandler(406)
 def e406(error):
+    print(error)
     return render_template('layout.html', error_head='406',
-                            error_message='Dude, that user does not exist.',
-                            error_link='/', error_link_m='Back to safety'), 406
+                           error_message='Dude, that user does not exist.',
+                           error_link='/', error_link_m='Back to safety'), 406
 
 
 @app.errorhandler(500)
 def e500(error):
+    print(error)
     return render_template('layout.html', error_head='500',
-                            error_message='Holy smokes! You just crashed the server!',
-                            error_link='https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg', error_link_m='Cat picture'), 500
+                           error_message='Holy smokes! You just crashed the server!',
+                           error_link='https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg',
+                           error_link_m='Cat picture'), 500
+
 
 @app.before_request
 def before():
     g.user = current_user
-    g.db = models.DB
+    g.db = DB
     g.db.connect()
-    try:
-        g.db.create_tables([User, Post, Comment, Relationship], safe=True)
-    except:
-        pass
+    g.db.create_tables([User, Post, Comment, Relationship], safe=True)
 
-    url = re.sub("http://", "https://", request.url)
-    if 'http://' in request.url:
+    url = sub('http://', 'https://', request.url)
+    if 'http://' in request.url and 'HEROKU' in os.environ:
         return redirect(url)
+
 
 @app.after_request
 def after(response):
@@ -292,5 +307,4 @@ def after(response):
 
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=80)
-    # app.run(debug=False, host='0.0.0.0', port=80)
+    app.run(debug=False, host='0.0.0.0', port=8080)

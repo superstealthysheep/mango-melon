@@ -1,2 +1,6 @@
-t-modules
-__pycache__
+venv
+.idea/misc.xml
+.idea/modules.xml
+.idea/thunderdynamics.iml
+.idea/workspace.xml
+DB
