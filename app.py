@@ -31,32 +31,13 @@ def load_user(id):
         return None
 
 
-@app.route('/', methods=('GET', 'POST'))
-@app.route('/<int:page>', methods=('GET', 'POST'))
+@app.route('/')
+@app.route('/<int:page>')
 def index(page=1):
     posts = None
     if current_user.is_authenticated:
-        if request.method == 'POST':
-            if request.form['pposts'] == 'everyone':
-                posts = Post.select().paginate(page, 20)
-                g.user.default_view = 'everyone'
-                g.user.save()
-            elif request.form['pposts'] == 'following':
-                posts = g.user.get_following().paginate(page, 20)
-                g.user.default_view = 'following'
-                g.user.save()
-            elif request.form['pposts'] == 'followers':
-                posts = g.user.get_followers().paginate(page, 20)
-                g.user.default_view = 'followers'
-                g.user.save()
-        else:
-            if g.user.default_view == 'following':
-                posts = g.user.get_following().paginate(page, 20)
-            elif g.user.default_view == 'followers':
-                posts = g.user.get_followers().paginate(page, 20)
-            else:
-                posts = Post.select().paginate(page, 20)
-    return render_template('index.html', posts=posts, options=True, page=page)
+        posts = Post.select().paginate(page, 20)
+    return render_template('index.html', posts=posts, page=page)
 
 
 @app.route('/comment/<int:id>', methods=['POST'])
@@ -75,7 +56,16 @@ def comment(id):
             post_comment.user.sendmail_to(name=g.user.username,
                                           subject="TDIC Comment",
                                           msg_text='{} commented on your post: "{}".'
-                                          .format(g.user.username, data))
+                                          .format(g.user.username, data),
+                                          link=url_for('view_post', id=post_comment.id)
+                                          )
+            for comment_user in post_comment.comments:
+                comment_user.user.sendmail_to(name=g.user.username,
+                                              subject="TDIC Comment",
+                                              msg_text='{} commented on a post: "{}".'
+                                              .format(g.user.username, data),
+                                              link=url_for('view_post', id=post_comment.id)
+                                              )
         else:
             flash('Comment too long (140 characters).')
         return redirect(url_for('index'))
@@ -145,13 +135,14 @@ def sign_out():
 def post():
     form = PostForm()
     if form.validate_on_submit():
-        Post.create(user=g.user.id, data=form.content.data)
-        for rel in Relationship.select():
-            if rel.to_user == g.user:
-                rel.from_user.sendmail_to(name=g.user.username,
-                                          subject="TDIC Post",
-                                          msg_text='{} posted: "{}".'
-                                          .format(g.user.username, form.content.data))
+        post_create = Post.create(user=g.user.id, data=form.content.data)
+        for user in User.select():
+            user.sendmail_to(name=g.user.username,
+                             subject="TDIC Post",
+                             msg_text='{} posted: "{}".'
+                             .format(g.user.username, form.content.data),
+                             link=url_for("view_post", id=post_create.id)
+                             )
 
         flash('Posted!')
         return redirect(url_for('index'))

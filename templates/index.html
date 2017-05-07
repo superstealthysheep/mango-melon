@@ -19,20 +19,7 @@
 		</div>
 		<p>Bio: {{ user.bio }}</p>
 	{% endif %}
-	{% if options %}
-		{% if current_user.is_authenticated %}
-			{% set view = g.user._get_current_object().default_view %}
-			<h2>Posts</h2>
-			<form method=POST>
-				<div class=row style="color: white;">
-					<input type='radio' value=everyone name='pposts' {% if view == 'everyone' %}checked=true{% endif %} style='margin-right:5px'>Everyone</input>
-					<input type='radio' value=followers name='pposts' {% if view == 'followers' %}checked=true{% endif %} style='margin-left:10%; margin-right:5px'>Followers</input>
-					<input type='radio' value=following name='pposts' {% if view == 'following' %}checked=true{% endif %} style='margin-left:10%; margin-right:5px'>Following</input>
-					<input type=submit style='float:right; color: white'></input>
-				</div>
-			</form>
-		{% endif %}
-	{% endif %}
+	<h2>Posts</h2>
 	{% if posts %}
 		{% for post in posts %}
 			<div class='post'>
