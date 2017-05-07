@@ -22,24 +22,23 @@
 		<div style=margin:10px id='header'>
 			<a href='/' style='color:black'><img class=headerfield style=float:left;border-radius:50% src='/static/teaselogo.png' width='70px' height='70px'></img></a>
 			{% if not current_user.is_authenticated %}
-				<a href='/signup' class=headerfield style=float:left>|Sign Up</a>
-				<a href='/signin' class=headerfield style=float:left>|Sign In</a>
+				<a href='/signup' class=headerfield style=float:right>SIGN UP</a>
+				<a href='/signin' class=headerfield style=float:right>SIGN IN</a>
 			{% else %}
-				<a href='/post' class=headerfield style=float:left>|Post</a>
-				<a href='/signout' class=headerfield style=float:right>|Sign Out</a>
-				<a href='/settings' class=headerfield style=float:right>|Settings</a>
+				<a href='/signout' class=headerfield style=float:right>SIGN OUT</a>
+				<a href='/settings' class=headerfield style=float:right>SETTINGS</a>
+				<a href='/post' class=headerfield style=float:right>POST</a>
+
+					<form action='/user' method='GET' style='margin:10px'>
+						<input type='text' placeholder='Search for a user' name='user' style='margin:10px'></input>
+					</form>
+				
 			{% endif %}
 		</div>
+
 		<br>
 		<br>
-		<br>
-		<div>
-			{% if current_user.is_authenticated %}
-				<form action='/user' method='GET' style='margin:10px'>
-					<input type='text' placeholder='Search for a user' name='user' style='margin:10px'></input>
-				</form>
-			{% endif %}
-		</div>
+
 		{% for message in get_flashed_messages() %}
 			<div class='message'>{{ message }}</div>
 		{% endfor %}
