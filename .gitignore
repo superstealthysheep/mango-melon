@@ -4,3 +4,4 @@ venv
 .idea/thunderdynamics.iml
 .idea/workspace.xml
 DB
+.idea
