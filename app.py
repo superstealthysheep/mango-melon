@@ -25,7 +25,7 @@ class AuthView(ModelView):
     column_exclude_list = ('avatar', 'password')
 
     def is_accessible(self):
-        return current_user.is_authenticated and (g.user.username in ['admin', 'eado', 'jack'])
+        return current_user.is_authenticated and (g.user.username in ['eado', 'jack'])
 
 admin = Admin(app, name='TDIC')
 admin.add_view(AuthView(User, 'User'))
