@@ -13,6 +13,8 @@
         <list>
           <option value="models.User.*" />
           <option value="models.Post.*" />
+          <option value="peewee.ForeignKeyField.*" />
+          <option value="models.Comment.*" />
         </list>
       </option>
     </inspection_tool>

@@ -42,6 +42,9 @@ class User(UserMixin, Model):
     bio = TextField(default='This person has not set a bio yet. Shame on that person.')
     default_view = CharField(default='following')
 
+    def __str__(self):
+        return self.username
+
     @classmethod
     def create_user(cls, username, email, first_name, last_name, password):
         user = cls.create(
@@ -99,6 +102,9 @@ class Post(Model):
     def get_comments(self):
         Comment.select().where(Comment.post == self)
 
+    def __str__(self):
+        return self.id
+
     class Meta:
         database = DB
         order_by = ('-created_at',)
@@ -110,12 +116,17 @@ class Comment(Model):
     data = TextField()
     created_at = DateTimeField(default=datetime.datetime.now)
 
+    def __str__(self):
+        return self.id
+
     class Meta:
         database = DB
         order_by = ('-created_at',)
 
 
 class Relationship(Model):
+    def __str__(self):
+        return '{} to {}'.format(self.from_user.username, self.to_user.username)
     from_user = ForeignKeyField(User, related_name='relations')
     to_user = ForeignKeyField(User, related_name='relations_to')
 
