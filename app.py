@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os
+from os import environ
 from re import sub
 from codecs import encode
 from sys import getsizeof
@@ -71,7 +71,7 @@ def comment(id):
         abort(400)
     else:
         if len(request.form['comment']) <= 140:
-            Comment.create(user=g.user, post=post_comment, data=data)
+            Comment.create(user=g.user.id, post=post_comment, data=data)
             post_comment.user.sendmail_to(name=g.user.username,
                                           subject="TDIC Comment",
                                           msg_text='{} commented on your post: "{}".'
@@ -145,7 +145,7 @@ def sign_out():
 def post():
     form = PostForm()
     if form.validate_on_submit():
-        Post.create(user=g.user, data=form.content.data)
+        Post.create(user=g.user.id, data=form.content.data)
         for rel in Relationship.select():
             if rel.to_user == g.user:
                 rel.from_user.sendmail_to(name=g.user.username,
@@ -296,7 +296,7 @@ def before():
     g.db.create_tables([User, Post, Comment, Relationship], safe=True)
 
     url = sub('http://', 'https://', request.url)
-    if 'http://' in request.url and 'HEROKU' in os.environ:
+    if 'http://' in request.url and 'HEROKU' in environ:
         return redirect(url)
 
 
