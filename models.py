@@ -103,7 +103,7 @@ class Post(Model):
         Comment.select().where(Comment.post == self)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
     class Meta:
         database = DB
@@ -117,7 +117,7 @@ class Comment(Model):
     created_at = DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
     class Meta:
         database = DB
