@@ -28,18 +28,17 @@
 				<a href='/signout' class=headerfield style=float:right>SIGN OUT</a>
 				<a href='/settings' class=headerfield style=float:right>SETTINGS</a>
 				<a href='/post' class=headerfield style=float:right>POST</a>
+
+					<form action='/user' method='GET' style='margin:10px'>
+						<input type='text' placeholder='Search for a user' name='user' style='margin:10px'></input>
+					</form>
+				
 			{% endif %}
 		</div>
 
 		<br>
 		<br>
-		<div>
-			{% if current_user.is_authenticated %}
-				<form action='/user' method='GET' style='margin:10px'>
-					<input type='text' placeholder='Search for a user' name='user' style='margin:10px'></input>
-				</form>
-			{% endif %}
-		</div>
+
 		{% for message in get_flashed_messages() %}
 			<div class='message'>{{ message }}</div>
 		{% endfor %}
