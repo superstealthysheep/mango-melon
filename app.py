@@ -13,10 +13,23 @@ from werkzeug.exceptions import BadRequest
 from flask import Flask, flash, redirect, url_for, render_template, g, abort, request
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from flask_bcrypt import check_password_hash
+from flask_admin import Admin
+from flask_admin.contrib.peewee import ModelView
 
 
 app = Flask(__name__)
 app.secret_key = 'gb5;w85uigb4hp89g 5ubg8959gb5g9p891234567gfvhytrdgfjdfgd5c56d566576tyvyfyftfyttytyftf'
+
+
+class AuthView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and (g.user.username in ['admin', 'eado', 'jack'])
+
+admin = Admin(app, name='TDIC')
+admin.add_view(AuthView(User, 'User'))
+admin.add_view(AuthView(Post, 'Post'))
+admin.add_view(AuthView(Comment, 'Comment'))
+admin.add_view(AuthView(Relationship, 'Relationship'))
 
 login_manager = LoginManager()
 login_manager.init_app(app)
