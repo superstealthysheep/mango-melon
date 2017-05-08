@@ -23,6 +23,7 @@ app.secret_key = 'gb5;w85uigb4hp89g 5ubg8959gb5g9p891234567gfvhytrdgfjdfgd5c56d5
 
 class AuthView(ModelView):
     column_exclude_list = ('avatar', 'password')
+    form_excluded_columns = ['email']
 
     def is_accessible(self):
         return current_user.is_authenticated and (g.user.username in ['eado', 'jack'])
