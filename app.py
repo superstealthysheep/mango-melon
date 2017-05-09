@@ -247,12 +247,12 @@ def settings():
                     flash('Avatar is bigger than 3 mb.')
             else:
                 flash('Avatar is not an image.')
-        if not request.form['email']:
+        if 'email' not in request.form:
             if user.default_view != 'noemail':
                 user.default_view = 'noemail'
                 user.save()
                 flash('Email turned off.')
-        elif request.form['email']:
+        elif 'email' in request.form:
             if user.default_view == 'noemail':
                 user.default_view = 'email'
                 user.save()
