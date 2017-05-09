@@ -26,7 +26,10 @@ class AuthView(ModelView):
     form_excluded_columns = ['email']
 
     def is_accessible(self):
-        return current_user.is_authenticated and (g.user.username in ['eado', 'jack'])
+        if 'HEROKU' in environ:
+            return current_user.is_authenticated and (g.user.username == environ['admin'])
+        else:
+            return current_user.is_authenticated
 
 admin = Admin(app, name='TDIC')
 admin.add_view(AuthView(User, 'User'))

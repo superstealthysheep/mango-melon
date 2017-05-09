@@ -76,19 +76,20 @@ class User(UserMixin, Model):
         )
 
     def sendmail_to(self, subject, msg_text, name="TDIC", link=None):
-        if self.default_view != 'noemail':
-            print(name)
-            smtp = smtplib.SMTP_SSL('smtp.gmail.com')
-            smtp.login('thethunderdynamics@gmail.com', 'Driselamri07')
-            msg = MIMEText(msg_text + '\n\n\nSincerely,\nTDIC Admin')
-            if link:
-                link = 'https://td-ic.herokuapp.com' + link
-                link_text = " <a href='{}'>See here</a>".format(link)
-                msg = MIMEText(msg_text + '<br>' + link_text + '<br><br><br>Sincerely,<br>TDIC Admin', 'html')
-            msg['Subject'] = subject
-            msg['From'] = name
-            msg['To'] = self.email
-            smtp.sendmail('thethunderdynamics@gmail.com', self.email, msg.as_string())
+        if 'HEROKU' in os.environ:
+            if self.default_view != 'noemail':
+                print(name)
+                smtp = smtplib.SMTP_SSL('smtp.gmail.com')
+                smtp.login('thethunderdynamics@gmail.com', os.environ['email_pass'])
+                msg = MIMEText(msg_text + '\n\n\nSincerely,\nTDIC Admin')
+                if link:
+                    link = 'https://td-ic.herokuapp.com' + link
+                    link_text = " <a href='{}'>See here</a>".format(link)
+                    msg = MIMEText(msg_text + '<br>' + link_text + '<br><br><br>Sincerely,<br>TDIC Admin', 'html')
+                msg['Subject'] = subject
+                msg['From'] = name
+                msg['To'] = self.email
+                smtp.sendmail('thethunderdynamics@gmail.com', self.email, msg.as_string())
 
     class Meta:
         database = DB
