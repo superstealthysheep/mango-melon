@@ -75,7 +75,7 @@ class User(UserMixin, Model):
             (Post.user == self)
         )
 
-    def sendmail_to(self, subject, msg_text, name="TDIC", link=None):
+    def sendmail_to(self, subject, msg_text, name="Project Mango Melon", link=None):
         if 'HEROKU' in os.environ:
             if self.default_view != 'noemail':
                 print(name)
