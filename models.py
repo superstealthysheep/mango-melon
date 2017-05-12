@@ -80,16 +80,16 @@ class User(UserMixin, Model):
             if self.default_view != 'noemail':
                 print(name)
                 smtp = smtplib.SMTP_SSL('smtp.gmail.com')
-                smtp.login('thethunderdynamics@gmail.com', os.environ['email_pass'])
-                msg = MIMEText(msg_text + '\n\n\nSincerely,\nTDIC Admin')
+                smtp.login('vantagesuperclinic@gmail.com', os.environ['email_pass'])
+                msg = MIMEText(msg_text + '\n\nProject Mango Melon')
                 if link:
-                    link = 'https://td-ic.herokuapp.com' + link
+                    link = 'https://mango-melon.herokuapp.com' + link
                     link_text = " <a href='{}'>See here</a>".format(link)
-                    msg = MIMEText(msg_text + '<br>' + link_text + '<br><br><br>Sincerely,<br>TDIC Admin', 'html')
+                    msg = MIMEText(msg_text + '<br>' + link_text + '<br><br><br>Project Mango Melon', 'html')
                 msg['Subject'] = subject
                 msg['From'] = name
                 msg['To'] = self.email
-                smtp.sendmail('thethunderdynamics@gmail.com', self.email, msg.as_string())
+                smtp.sendmail('vantagesuperclinic@gmail.com', self.email, msg.as_string())
 
     class Meta:
         database = DB
