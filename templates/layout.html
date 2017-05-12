@@ -30,12 +30,12 @@
 		<div style=margin:10px id='header'>
 			<a href='/' style='color:black'><img class=headerfield style=float:left;border-radius:50% src='/static/teaselogo.png' width='70px' height='70px'></img></a>
 			{% if not current_user.is_authenticated %}
-				<a href='/signup' class=headerfield style=float:right>SIGN UP</a>
-				<a href='/signin' class=headerfield style=float:right>SIGN IN</a>
+				<a href='/signup' class="headerfield waves-effect waves-light btn" style="float:right">SIGN UP</a>
+				<a href='/signin' class="headerfield waves-effect waves-light btn" style="float:right">SIGN IN</a>
 			{% else %}
-				<a href='/signout' class=headerfield style=float:right>SIGN OUT</a>
-				<a href='/settings' class=headerfield style=float:right>SETTINGS</a>
-				<a href='/post' class=headerfield style=float:right>POST</a>
+				<a href='/signout' class="headerfield waves-effect waves-light btn" style="float:right">SIGN OUT</a>
+				<a href='/settings' class="headerfield waves-effect waves-light btn" style="float:right">SETTINGS</a>
+				<a href='/post' class="headerfield waves-effect waves-light btn" style="float:right">POST</a>
 
 					<form action='/user' method='GET' style='margin:10px'>
 						<input type='text' placeholder='Search for a user' name='user' style='margin:10px'></input>
