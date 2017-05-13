@@ -54,10 +54,10 @@ class User(UserMixin, Model):
             last_name=last_name,
             password=generate_password_hash(password)
         )
-"""
-        user.sendmail_to(subject="Signup",
-                         msg_text='You have now registered with Thunder Dynamics Internal Communication (TDIC)')
-"""
+
+       # user.sendmail_to(subject="Signup",
+       #                  msg_text='You have now registered with Thunder Dynamics Internal Communication (TDIC)')
+
     def following(self):
         return User.select().join(Relationship, on=Relationship.to_user).where(Relationship.from_user == self)
 
