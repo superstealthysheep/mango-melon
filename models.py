@@ -76,22 +76,22 @@ class User(UserMixin, Model):
             (Post.user == self)
         )
 
-"""    def sendmail_to(self, subject, msg_text, name="Project Mango Melon", link=None):
-        if 'HEROKU' in os.environ:
-            if self.default_view != 'noemail':
-                print(name)
-                smtp = smtplib.SMTP_SSL('smtp.gmail.com')
-                smtp.login('vantagesuperclinic@gmail.com', os.environ['email_pass'])
-                msg = MIMEText(msg_text + '\n\nProject Mango Melon')
-                if link:
-                    link = 'https://mango-melon.herokuapp.com' + link
-                    link_text = " <a href='{}'>See here</a>".format(link)
-                    msg = MIMEText(msg_text + '<br>' + link_text + '<br><br><br>Project Mango Melon', 'html')
-                msg['Subject'] = subject
-                msg['From'] = name
-                msg['To'] = self.email
-                smtp.sendmail('vantagesuperclinic@gmail.com', self.email, msg.as_string())
-"""
+#    def sendmail_to(self, subject, msg_text, name="Project Mango Melon", link=None):
+#        if 'HEROKU' in os.environ:
+#            if self.default_view != 'noemail':
+#                print(name)
+#                smtp = smtplib.SMTP_SSL('smtp.gmail.com')
+#                smtp.login('vantagesuperclinic@gmail.com', os.environ['email_pass'])
+#                msg = MIMEText(msg_text + '\n\nProject Mango Melon')
+#                if link:
+#                    link = 'https://mango-melon.herokuapp.com' + link
+#                    link_text = " <a href='{}'>See here</a>".format(link)
+#                    msg = MIMEText(msg_text + '<br>' + link_text + '<br><br><br>Project Mango Melon', 'html')
+#                msg['Subject'] = subject
+#                msg['From'] = name
+#                msg['To'] = self.email
+#                smtp.sendmail('vantagesuperclinic@gmail.com', self.email, msg.as_string())
+
     class Meta:
         database = DB
         order_by = ('-joined_at',)
