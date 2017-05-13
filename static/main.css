@@ -39,6 +39,7 @@ hr {
 	border-radius: 5px;
 }
 
+/*
 .post {
 	background-color: white;
 	margin: 30px;
@@ -46,7 +47,7 @@ hr {
 	border-radius: 20px;
 	color: black;
 }
-
+*/
 .post * {
 	color: black;
 }
