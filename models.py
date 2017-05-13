@@ -54,9 +54,10 @@ class User(UserMixin, Model):
             last_name=last_name,
             password=generate_password_hash(password)
         )
+"""
         user.sendmail_to(subject="Signup",
                          msg_text='You have now registered with Thunder Dynamics Internal Communication (TDIC)')
-
+"""
     def following(self):
         return User.select().join(Relationship, on=Relationship.to_user).where(Relationship.from_user == self)
 
@@ -75,7 +76,7 @@ class User(UserMixin, Model):
             (Post.user == self)
         )
 
-    def sendmail_to(self, subject, msg_text, name="Project Mango Melon", link=None):
+"""    def sendmail_to(self, subject, msg_text, name="Project Mango Melon", link=None):
         if 'HEROKU' in os.environ:
             if self.default_view != 'noemail':
                 print(name)
@@ -90,7 +91,7 @@ class User(UserMixin, Model):
                 msg['From'] = name
                 msg['To'] = self.email
                 smtp.sendmail('vantagesuperclinic@gmail.com', self.email, msg.as_string())
-
+"""
     class Meta:
         database = DB
         order_by = ('-joined_at',)
@@ -139,7 +140,7 @@ class Relationship(Model):
 if 'HEROKU' in os.environ:
     uses_netloc.append('postgres')
     url = urlparse(os.environ["DATABASE_URL"])
-    db_sql = PostgresqlDatabase(database=url.path[1:], user=url.username, password=url.password, host=url.hostname, 
+    db_sql = PostgresqlDatabase(database=url.path[1:], user=url.username, password=url.password, host=url.hostname,
                                 port=url.port)
     DB.initialize(db_sql)
 else:
