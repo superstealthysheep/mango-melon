@@ -72,19 +72,19 @@ def comment(id):
     else:
         if len(request.form['comment']) <= 140:
             Comment.create(user=g.user.id, post=post_comment, data=data)
-            post_comment.user.sendmail_to(name=g.user.username,
-                                          subject="TDIC Comment",
-                                          msg_text='{} commented on your post: "{}".'
-                                          .format(g.user.username, data),
-                                          link=url_for('view_post', id=post_comment.id)
-                                          )
-            for comment_user in post_comment.comments:
-                comment_user.user.sendmail_to(name=g.user.username,
-                                              subject="TDIC Comment",
-                                              msg_text='{} commented on a post: "{}".'
-                                              .format(g.user.username, data),
-                                              link=url_for('view_post', id=post_comment.id)
-                                              )
+#post_comment.user.sendmail_to(name=g.user.username,
+#                                          subject="TDIC Comment",
+#                                          msg_text='{} commented on your post: "{}".'
+#                                          .format(g.user.username, data),
+#                                          link=url_for('view_post', id=post_comment.id)
+#                                          )
+#            for comment_user in post_comment.comments:
+#                comment_user.user.sendmail_to(name=g.user.username,
+#                                              subject="TDIC Comment",
+#                                              msg_text='{} commented on a post: "{}".'
+#                                              .format(g.user.username, data),
+#                                              link=url_for('view_post', id=post_comment.id)
+#                                             )
         else:
             flash('Comment too long (140 characters).')
         return redirect(url_for('index'))
@@ -155,13 +155,13 @@ def post():
     form = PostForm()
     if form.validate_on_submit():
         post_create = Post.create(user=g.user.id, data=form.content.data)
-        for user in User.select():
-            user.sendmail_to(name=g.user.username,
-                             subject="TDIC Post",
-                             msg_text='{} posted: "{}".'
-                             .format(g.user.username, form.content.data),
-                             link=url_for("view_post", id=post_create.id)
-                             )
+       # for user in User.select():
+      #      user.sendmail_to(name=g.user.username,
+     #                        subject="TDIC Post",
+   #                          msg_text='{} posted: "{}".'
+    #                         .format(g.user.username, form.content.data),
+  #                           link=url_for("view_post", id=post_create.id)
+    #                         )
 
         flash('Posted!')
         return redirect(url_for('index'))
