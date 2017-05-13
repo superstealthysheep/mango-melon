@@ -7,7 +7,7 @@
 		<h3 style='margin-top: 5%'>{{ render_avatar(user.avatar) }}{{ user.first_name }} {{ user.last_name }} ({{ user.username }})</h3>
 		<div class='row'>
 			<p class='four columns'>Joined on {{ user.joined_at.strftime('%A, %B %d at %I:%M %p') }}</p>
-			<p class='three columns'>Following: {{ user.relations.count() }}</p>
+		<!--	<p class='three columns'>Following: {{ user.relations.count() }}</p>
 			<p class='three columns'>Followers: {{ user.relations_to.count() }}</p>
 			{% if user != g.user._get_current_object() %}
 				{% if user not in current_user.following() %}
@@ -15,7 +15,7 @@
 				{% else %}
 					<a href='{{ url_for('unfollow', username=user.username) }}' class='two columns button'>Unfollow</a>
 				{% endif %}
-			{% endif %}
+			{% endif %} !-->
 		</div>
 		<p>Bio: {{ user.bio }}</p>
 	{% endif %}
