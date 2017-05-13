@@ -1,6 +1,5 @@
 * {
-	font-family: 'Open Sans';
-	color: white;
+	color: black;
 }
 
 form {
@@ -8,16 +7,16 @@ form {
 }
 
 form * {
-	color: black;
+	color: white;
 }
 
 label {
-	color: white !important;
+	color: black !important;
 }
 
 body {
 	padding: 0px;
-	background-color: black
+	background-color: white;
 }
 
 hr {
@@ -62,5 +61,5 @@ hr {
 a.headerfield {
 	margin-left: 20px;
 	font-size: 20px;
-	color: white;
+	color: black;
 }
