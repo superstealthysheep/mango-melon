@@ -1,0 +1,26 @@
+{
+  "name": "mango-melon",
+  "scripts": {
+  },
+  "env": {
+    "auth_pass": {
+      "required": true
+    },
+    "email_pass": {
+      "required": true
+    },
+    "HEROKU": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
