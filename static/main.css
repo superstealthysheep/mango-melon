@@ -57,20 +57,20 @@ hr {
 	color: black;
 }
 
-.headerfield {
+ /* .headerfield {
 	margin: 5px;
 	display: inline-block;
 	text-decoration: none;
 	vertical-align: middle;
 	line-height: 50px;
 }
-
+*/
 a.headerfield {
 	margin-left: 20px;
 	font-size: 20px;
-	color: black;
+	/* color: black; */
 }
 
 .btn {
-	color: white; 
+	color: white;
 }
