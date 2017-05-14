@@ -9,7 +9,7 @@
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 	    <link rel="stylesheet" href="{{ url_for('static', filename='normalize.css') }}">
-			
+
 			<!-- Compiled and minified CSS -->
 			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
 
@@ -29,7 +29,7 @@
 	    <![endif]-->
 	</head>
 	<body>
-		<a href='#header' style='position:fixed; margin-top:40%; margin-left:2%; text-decoration:none; font-size:72px'>^</a>
+		
 		<div style=margin:10px id='header'>
 			<a href='/' style='color:black'><img class=headerfield style=float:left;border-radius:50% src='/static/IMG_0917.JPG' width='70px' height='70px'></img></a>
 			{% if not current_user.is_authenticated %}
