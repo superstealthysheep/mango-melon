@@ -37,7 +37,7 @@ def auth_matches(form, field):
     if check_password_hash(AUTH_PASS, field.data):
         pass
     else:
-        raise ValidationError('Special Password Incorrect')
+        raise ValidationError('Special password incorrect')
 
 
 class SignUpForm(Form):

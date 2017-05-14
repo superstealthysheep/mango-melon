@@ -234,7 +234,7 @@ def settings():
             if len(request.form['bio']) <= 255:
                 user.bio = request.form['bio']
                 user.save()
-                flash('Bio is set!')
+                flash('Bio set!')
             else:
                 flash('Bio is too long.')
         if request.files['avatar']:
