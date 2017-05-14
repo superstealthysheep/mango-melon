@@ -1,3 +1,8 @@
+a h1 h2 h3 p h label {
+	color: black;
+}
+
+
 * {
 	color: black;
 	font-family: "Roboto", sans-serif;
@@ -64,4 +69,8 @@ a.headerfield {
 	margin-left: 20px;
 	font-size: 20px;
 	color: black;
+}
+
+.btn {
+	color: white; 
 }
