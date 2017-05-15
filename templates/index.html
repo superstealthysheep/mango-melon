@@ -37,23 +37,7 @@
 					
                     <img src="{{ post.data }}">
 				</div>
-				{% if post.comments %}
-					<h5>Comments</h5>
-					{% for comment in post.comments %}
-						<div class=row style='margin: 5px'>
-							<a href='{{ url_for('user_view', username=comment.user.username) }}' style='display:inline'>{{ comment.user.username }}</a>
-							<h6 style='display:inline'>{{ comment.created_at.strftime('%A, %B %d at %I:%M %p') }}</h6>
-							
-                            <img src="{{ comment.data }}">
-						</div>
-					{% endfor %}
-				{% endif %}
-				<div class='row'>
-					<form method=POST action='/comment/{{ post.id }}'>
-						<input type=file placeholder='Comment' name='comment'>
-					        <input type="submit" value="Submit">
-					</form>
-				</div>
+				
 			</div>
 		{% endfor %}
 		{% if options %}
