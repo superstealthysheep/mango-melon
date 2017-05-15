@@ -2,7 +2,7 @@ import os
 
 import models
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, TextAreaField, BooleanField
+from wtforms import StringField, PasswordField, TextAreaField, BooleanField, FileField
 from wtforms.validators import ValidationError, DataRequired, regexp, Email, EqualTo, Length
 from flask_bcrypt import check_password_hash
 
