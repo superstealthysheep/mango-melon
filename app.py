@@ -77,7 +77,7 @@ def comment(id):
                     flash('Image is bigger than 3 mb.')
     else:
         flash('The upload is not an image. ')
-    return render_template('post.html', form=form)
+    
         return redirect(url_for('index'))
 
 
