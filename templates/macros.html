@@ -1,5 +1,5 @@
 {% macro render_form(form, header, button) %}
-	<form method='POST' class=container style='margin-top: 5%; color: white;'>
+	<form method='POST' enctype="multipart/form-data" class=container style='margin-top: 5%; color: white;'>
 		<h2 style="color:white;">{{ header }}</h2>
 		{% for field in form %}
 		    <div class=row>
