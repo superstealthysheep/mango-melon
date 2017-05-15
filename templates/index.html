@@ -50,7 +50,8 @@
 				{% endif %}
 				<div class='row'>
 					<form method=POST action='/comment/{{ post.id }}'>
-						<input type=file placeholder='Comment' name='comment'></input>
+						<input type=file placeholder='Comment' name='comment'>
+					        <input type="submit" value="Submit">
 					</form>
 				</div>
 			</div>
