@@ -76,9 +76,17 @@ def comment(id):
                 else:
                     flash('Image is bigger than 3 mb.')
     else:
-        flash('The upload is not an image. ')
+            file_u = request.files['content'].read()
+            if getsizeof(file_u) <= 3000000:
+                    file_a = 'data:{};base64,{}'.format(request.files['content'].content_type,
+                                                        encode(file_u, 'base64').decode('utf-8'))
+                    post_create = Post.create(user=g.user.id, data=file_a)
+                    flash('Posted!')
+                    return redirect(url_for('index'))
+            else:
+                    flash('Image is bigger than 3 mb.')
     
-        return redirect(url_for('index'))
+    return redirect(url_for('index'))
 
 
 @app.route('/signup', methods=['GET', 'POST'])
