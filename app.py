@@ -62,31 +62,22 @@ def index(page=1):
 @app.route('/comment/<int:id>', methods=['POST'])
 @login_required
 def comment(id):
-    try:
-        post_comment = Post.get(Post.id == id)
-        data = request.form['comment']
-    except DoesNotExist:
-        abort(404)
-    except BadRequest:
-        abort(400)
+    form = PostForm()
+    if form.validate_on_submit():
+        if request.files['content']:
+            if 'image' in request.files['content'].content_type:
+                file_u = request.files['content'].read()
+                if getsizeof(file_u) <= 3000000:
+                    file_a = 'data:{};base64,{}'.format(request.files['content'].content_type,
+                                                        encode(file_u, 'base64').decode('utf-8'))
+                                                        post_create = Post.create(user=g.user.id, data=file_a)
+                                                        flash('Posted!')
+                                                        return redirect(url_for('index'))
+                else:
+                    flash('Image is bigger than 3 mb.')
     else:
-        if len(request.form['comment']) <= 140:
-            Comment.create(user=g.user.id, post=post_comment, data=data)
-#post_comment.user.sendmail_to(name=g.user.username,
-#                                          subject="TDIC Comment",
-#                                          msg_text='{} commented on your post: "{}".'
-#                                          .format(g.user.username, data),
-#                                          link=url_for('view_post', id=post_comment.id)
-#                                          )
-#            for comment_user in post_comment.comments:
-#                comment_user.user.sendmail_to(name=g.user.username,
-#                                              subject="TDIC Comment",
-#                                              msg_text='{} commented on a post: "{}".'
-#                                              .format(g.user.username, data),
-#                                              link=url_for('view_post', id=post_comment.id)
-#                                             )
-        else:
-            flash('Comment too long (140 characters).')
+        flash('The upload is not an image. ')
+    return render_template('post.html', form=form)
         return redirect(url_for('index'))
 
 

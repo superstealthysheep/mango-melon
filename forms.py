@@ -102,3 +102,4 @@ class SignInForm(Form):
 
 class PostForm(Form):
     content = FileField()
+
