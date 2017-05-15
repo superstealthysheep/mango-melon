@@ -101,4 +101,4 @@ class SignInForm(Form):
 
 
 class PostForm(Form):
-    content = TextAreaField('What do you have to say?', validators=[Length(1, 255)])
+    content = FileField()

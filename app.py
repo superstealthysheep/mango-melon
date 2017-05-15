@@ -154,17 +154,19 @@ def sign_out():
 def post():
     form = PostForm()
     if form.validate_on_submit():
-        post_create = Post.create(user=g.user.id, data=form.content.data)
-       # for user in User.select():
-      #      user.sendmail_to(name=g.user.username,
-     #                        subject="TDIC Post",
-   #                          msg_text='{} posted: "{}".'
-    #                         .format(g.user.username, form.content.data),
-  #                           link=url_for("view_post", id=post_create.id)
-    #                         )
-
-        flash('Posted!')
-        return redirect(url_for('index'))
+        if request.files['content']:
+            if 'image' in request.files['content'].content_type:
+                file_u = request.files['content'].read()
+                if getsizeof(file_u) <= 5000000:
+                    file_a = 'data:{};base64,{}'.format(request.files['content'].content_type,
+                                                        encode(file_u, 'base64').decode('utf-8'))
+                    post_create = Post.create(user=g.user.id, data=file_a)
+                    flash('Posted!')
+                    return redirect(url_for('index'))
+                else:
+                    flash('Image is bigger than 5 mb.')
+        else:
+            flash('The upload is not an image. ')
     return render_template('post.html', form=form)
 
 
