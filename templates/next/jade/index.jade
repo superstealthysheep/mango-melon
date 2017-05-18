@@ -7,13 +7,13 @@ html
     meta(name="apple-mobile-web-app-status-bar-style", content="black")
     title My App
     // Path to Framework7 Library CSS
-    link(rel="stylesheet", href="../../dist/css/framework7.ios.min.css")
+    link(rel="stylesheet", href="css/framework7.ios.min.css")
     // Path to your custom app styles
     link(rel="stylesheet", href="css/my-app.css")
   body
     // Status bar overlay for fullscreen mode
     .statusbar-overlay
-      
+
     // Panels overlay
     .panel-overlay
     // Left panel with reveal effect
@@ -40,9 +40,9 @@ html
               .content-block
                 p This is an example of tab bar application layout. The main point of such tabbed layout is that each tab contains independent view with its own routing and navigation.
                 p Each tab/view may have different layout, different navbar type (dynamic, fixed or static) or without navbar like this tab.
-                p And of course, your favorite panels are still here: 
+                p And of course, your favorite panels are still here:
                   a(href="#").open-panel left
-                  |  and  
+                  |  and
                   a(href="#", data-panel="right").open-panel right
                 p Icons and their labels in tab bar below are just for example and don't related to their content.
       // Second view (for second wrap)
@@ -61,11 +61,11 @@ html
                   li
                     a(href="about.html").item-link
                       .item-content
-                        .item-inner 
+                        .item-inner
                           .item-title About Us
                   li
                     a(href="services.html").item-link
-                      .item-content 
+                      .item-content
                         .item-inner
                           .item-title Services
       .view.tab#view-3
@@ -74,9 +74,9 @@ html
             .page-content
               .content-block-title Another plain static view
               .content-block
-                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel commodo massa, eu adipiscing mi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus ultricies dictum neque, non varius tortor fermentum at. Curabitur auctor cursus imperdiet. Nam molestie nisi nec est lacinia volutpat in a purus. Maecenas consectetur condimentum viverra. Donec ultricies nec sem vel condimentum. Phasellus eu tincidunt enim, sit amet convallis orci. Vestibulum quis fringilla dolor.    
+                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel commodo massa, eu adipiscing mi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus ultricies dictum neque, non varius tortor fermentum at. Curabitur auctor cursus imperdiet. Nam molestie nisi nec est lacinia volutpat in a purus. Maecenas consectetur condimentum viverra. Donec ultricies nec sem vel condimentum. Phasellus eu tincidunt enim, sit amet convallis orci. Vestibulum quis fringilla dolor.
                 p Mauris commodo lacus at nisl lacinia, nec facilisis erat rhoncus. Sed eget pharetra nunc. Aenean vitae vehicula massa, sed sagittis ante. Quisque luctus nec velit dictum convallis. Nulla facilisi. Ut sed erat nisi. Donec non dolor massa. Mauris malesuada dolor velit, in suscipit leo consectetur vitae. Duis tempus ligula non eros pretium condimentum. Cras sed dolor odio.
-                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel commodo massa, eu adipiscing mi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus ultricies dictum neque, non varius tortor fermentum at. Curabitur auctor cursus imperdiet. Nam molestie nisi nec est lacinia volutpat in a purus. Maecenas consectetur condimentum viverra. Donec ultricies nec sem vel condimentum. Phasellus eu tincidunt enim, sit amet convallis orci. Vestibulum quis fringilla dolor.    
+                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel commodo massa, eu adipiscing mi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus ultricies dictum neque, non varius tortor fermentum at. Curabitur auctor cursus imperdiet. Nam molestie nisi nec est lacinia volutpat in a purus. Maecenas consectetur condimentum viverra. Donec ultricies nec sem vel condimentum. Phasellus eu tincidunt enim, sit amet convallis orci. Vestibulum quis fringilla dolor.
 
       .view.tab#view-4
         .pages.navbar-fixed
@@ -91,7 +91,7 @@ html
                     .item-content
                       .item-media
                         i.icon.icon-form-name
-                      .item-inner 
+                      .item-inner
                         .item-title.label Name
                         .item-input
                           input(type="text", placeholder="Your name")
@@ -99,7 +99,7 @@ html
                     .item-content
                       .item-media
                         i.icon.icon-form-email
-                      .item-inner 
+                      .item-inner
                         .item-title.label E-mail
                         .item-input
                           input(type="email", placeholder="E-mail")
@@ -107,7 +107,7 @@ html
                     .item-content
                       .item-media
                         i.icon.icon-form-url
-                      .item-inner 
+                      .item-inner
                         .item-title.label URL
                         .item-input
                           input(type="url", placeholder="URL")
@@ -115,7 +115,7 @@ html
                     .item-content
                       .item-media
                         i.icon.icon-form-password
-                      .item-inner 
+                      .item-inner
                         .item-title.label Password
                         .item-input
                           input(type="password", placeholder="Password")
@@ -123,7 +123,7 @@ html
                     .item-content
                       .item-media
                         i.icon.icon-form-tel
-                      .item-inner 
+                      .item-inner
                         .item-title.label Phone
                         .item-input
                           input(type="tel", placeholder="Phone")
@@ -131,7 +131,7 @@ html
                     .item-content
                       .item-media
                         i.icon.icon-form-gender
-                      .item-inner 
+                      .item-inner
                         .item-title.label Gender
                         .item-input
                           select
@@ -141,7 +141,7 @@ html
                     .item-content
                       .item-media
                         i.icon.icon-form-calendar
-                      .item-inner 
+                      .item-inner
                         .item-title.label Birth date
                         .item-input
                           input(type="date", placeholder="Birth day", value="2014-04-30")
@@ -149,7 +149,7 @@ html
                     .item-content
                       .item-media
                         i.icon.icon-form-toggle
-                      .item-inner 
+                      .item-inner
                         .item-title.label Switch
                         .item-input
                           label.label-switch
@@ -169,21 +169,21 @@ html
       // Bottom Tabbar
       .toolbar.tabbar.tabbar-labels
         .toolbar-inner
-          a(href="#view-1").tab-link.active 
+          a(href="#view-1").tab-link.active
             i.icon.tabbar-demo-icon-1
             span.tabbar-label Information
           a(href="#view-2").tab-link
             i.icon.tabbar-demo-icon-2
             span.tabbar-label Inbox
-          a(href="#view-3").tab-link 
+          a(href="#view-3").tab-link
             i.icon.tabbar-demo-icon-3
               span.badge.bg-red 4
             span.tabbar-label Upload
-          a(href="#view-4").tab-link 
+          a(href="#view-4").tab-link
             i.icon.tabbar-demo-icon-4
             span.tabbar-label Photos
 
     // Path to Framework7 Library JS
-    script(type="text/javascript", src="../../dist/js/framework7.min.js")
+    script(type="text/javascript", src="js/framework7.min.js")
     // Path to your app js
     script(type="text/javascript", src="js/my-app.js")
