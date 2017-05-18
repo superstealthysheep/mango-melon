@@ -59,13 +59,13 @@ def index(page=1):
     return render_template('index.html', posts=posts, page=page)
 
 @app.route('/next')
-def next:
+def next():
     posts = None
     if current_user.is_authenticated:
         return render_template('next/index.html')
     else:
         return render_template('index.html', posts=posts, page=1)
-    
+
 
 
 @app.route('/comment/<int:id>', methods=['POST'])
