@@ -1,6 +1,6 @@
 # PROJECT PAPAYA PUMPKIN
 
-The remix of the remix. Yeah, it's cooler.
+The offshoot of the offshoot. Yeah, it's cooler.
 
 Currently in invite-only beta, but it's getting better and better (and will soon be public).  
 
